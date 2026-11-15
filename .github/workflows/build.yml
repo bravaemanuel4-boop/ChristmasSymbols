@@ -1,5 +1,4 @@
 
-
 name: Build ChristmasSymbols
 
 on:
@@ -12,6 +11,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Get source files
         uses: actions/checkout@v4
@@ -24,6 +24,10 @@ jobs:
       - name: Extract ZIP
         run: |
           unzip -o ChristmasSymbols-source.zip -d extracted
+
+      - name: Show extracted files
+        run: |
+          find extracted -type f
 
       - name: Set target framework to .NET 10
         run: |
@@ -43,5 +47,3 @@ jobs:
         with:
           name: ChristmasSymbols-DLL
           path: extracted/ChristmasSymbols/bin/Release/net10.0/
-
-
