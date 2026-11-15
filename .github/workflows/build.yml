@@ -1,3 +1,5 @@
+
+
 name: Build ChristmasSymbols
 
 on:
@@ -10,7 +12,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Get source files
         uses: actions/checkout@v4
@@ -26,19 +27,21 @@ jobs:
 
       - name: Set target framework to .NET 10
         run: |
-          sed -i 's/net8.0/net10.0/g' extracted/ChristmasSymbols/ChristmasSymbols/ChristmasSymbols.csproj
+          sed -i 's/net8.0/net10.0/g' extracted/ChristmasSymbols/ChristmasSymbols.csproj
 
       - name: Fix source compatibility
         run: |
-          sed -i 's/\.SteamId\.ToString()/\.SteamId64.ToString()/g' extracted/ChristmasSymbols/ChristmasSymbols/ChristmasSymbolsPlugin.cs
-          sed -i '1i using Microsoft.Extensions.Logging;' extracted/ChristmasSymbols/ChristmasSymbols/ChristmasSymbolsPlugin.cs
+          sed -i 's/\.SteamId\.ToString()/\.SteamId64.ToString()/g' extracted/ChristmasSymbols/ChristmasSymbolsPlugin.cs
+          sed -i '1i using Microsoft.Extensions.Logging;' extracted/ChristmasSymbols/ChristmasSymbolsPlugin.cs
 
       - name: Build plugin
         run: |
-          dotnet build extracted/ChristmasSymbols/ChristmasSymbols/ChristmasSymbols.csproj --configuration Release
+          dotnet build extracted/ChristmasSymbols/ChristmasSymbols.csproj --configuration Release
 
       - name: Upload DLL
         uses: actions/upload-artifact@v4
         with:
           name: ChristmasSymbols-DLL
-          path: extracted/ChristmasSymbols/ChristmasSymbols/bin/Release/net10.0/
+          path: extracted/ChristmasSymbols/bin/Release/net10.0/
+
+
