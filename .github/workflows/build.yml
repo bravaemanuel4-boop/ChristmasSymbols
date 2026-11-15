@@ -15,14 +15,18 @@ jobs:
       - name: Get source files
         uses: actions/checkout@v4
 
-      - name: Install .NET 8
+      - name: Install .NET 10
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 10.0.x
 
       - name: Extract ZIP
         run: |
           unzip -o ChristmasSymbols-source.zip -d extracted
+
+      - name: Set target framework to .NET 10
+        run: |
+          sed -i 's/net8.0/net10.0/g' extracted/ChristmasSymbols/ChristmasSymbols.csproj
 
       - name: Build plugin
         run: |
@@ -32,4 +36,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ChristmasSymbols-DLL
-          path: extracted/ChristmasSymbols/bin/Release/net8.0/
+          path: extracted/ChristmasSymbols/bin/Release/net10.0/
