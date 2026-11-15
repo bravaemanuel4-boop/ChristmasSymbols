@@ -1,0 +1,35 @@
+name: Build ChristmasSymbols
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "ChristmasSymbols-source.zip"
+      - ".github/workflows/build.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get source files
+        uses: actions/checkout@v4
+
+      - name: Install .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Extract ZIP
+        run: |
+          unzip -o ChristmasSymbols-source.zip -d extracted
+
+      - name: Build plugin
+        run: |
+          dotnet build extracted/ChristmasSymbols/ChristmasSymbols.csproj --configuration Release
+
+      - name: Upload DLL
+        uses: actions/upload-artifact@v4
+        with:
+          name: ChristmasSymbols-DLL
+          path: extracted/ChristmasSymbols/bin/Release/net8.0/
